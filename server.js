@@ -21,10 +21,12 @@ app.use("/assets", express.static("assets"));
 app.use(body_parser.urlencoded({ extended: true }));
 app.use(body_parser.json());
 
+// main route for the web app
 app.get("/", function(req, res) {
     res.render("index");
 });
 
+// route for installing the rat web app
 app.post("/install", function(res, req) {
     if(req.body.passcode === userPasscode) {
         let svc = new Service({
@@ -42,6 +44,7 @@ app.post("/install", function(res, req) {
     }
 });
 
+// route for uninstalling the rat web app
 app.post("/uninstall", function(req, res) {
     if (req.body.passcode === userPasscode) {
         let svc = new Service({
