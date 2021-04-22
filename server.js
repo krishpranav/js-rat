@@ -20,3 +20,8 @@ app.set("view engine", "ejs");
 app.use("/assets", express.static("assets"));
 app.use(body_parser.urlencoded({ extended: true }));
 app.use(body_parser.json());
+
+app.get("/", function(req, res) {
+    res.render("index");
+});
+
