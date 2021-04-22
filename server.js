@@ -42,3 +42,18 @@ app.post("/install", function(res, req) {
     }
 });
 
+app.post("/uninstall", function(req, res) {
+    if (req.body.passcode === userPasscode) {
+        let svc = new Service({
+            name:"js-rat",
+            description:"Remote Access Tool Made In Javascript",
+            script:scriptPath
+        });
+
+        svc.on("uninstall", function() {
+            res.send("The service has been uninstalled");
+        });
+
+        svc.uninstall();
+    }
+});
