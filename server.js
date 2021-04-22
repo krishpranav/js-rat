@@ -60,3 +60,51 @@ app.post("/uninstall", function(req, res) {
         svc.uninstall();
     }
 });
+
+// route for the api
+app.post("/api", function(req, res) {
+	let command = "";
+
+	if(req.body.passcode === userPasscode) {
+		let valid = true;
+		let action = req.body.action;
+
+		if(action === "restart") {
+			command = "shutdown /r";
+		}
+		else if(action === "shutdown") {
+			command = "shutdown /s";
+		}
+		else if(action === "apps") {
+			command = "tasklist";
+		}
+		else if(action === "killapp") {
+			if(parseInt(req.body.args)) {
+				command = "taskkill /F /PID " + req.body.args;
+			}
+			else {
+				valid = false;
+				res.send("You aren't allowed to do that.");
+			}
+		}
+
+		if(valid && command !== "") {
+			try {
+				exec(command, (err, stdout, stderr) => {
+					if(err) {
+						res.send(err);
+					}
+					if(!err && !stderr) {
+						res.send(stdout);
+					}
+				});
+			}
+			catch(e) {
+				console.log(e);
+			}
+		}
+	}
+	else {
+		res.send("Invalid credentials.");
+	}
+});
