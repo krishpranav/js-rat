@@ -8,5 +8,5 @@
 git clone https://github.com/krishpranav/js-rat
 cd js-rat
 chmod +x *
-npm index.js
+npm server.js
 ```
